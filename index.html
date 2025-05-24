@@ -129,6 +129,32 @@
       background: #222;
       color: #f0f0f0;
     }
+    #buildmaker {
+      max-width: 400px;
+      margin: 0 auto;
+    }
+    #buildmaker label {
+      font-weight: bold;
+      margin-top: 1rem;
+      display: block;
+    }
+    #buildmaker input {
+      display: block;
+      width: 100%;
+      padding: 0.75rem;
+      margin-top: 0.25rem;
+      border-radius: 8px;
+      border: 1px solid #444;
+      background-color: #222;
+      color: #f0f0f0;
+      font-size: 1rem;
+    }
+    #buildmaker button.nav-button {
+      display: block;
+      width: 100%;
+      margin-top: 1.5rem;
+    }
+
   </style>
 </head>
 <body>
@@ -144,6 +170,7 @@
     <div class="button-container">
       <button class="nav-button" onclick="showSection('lows')">Iniciantes</button>
       <button class="nav-button" onclick="showSection('builds')">Builds</button>
+      <button class="nav-button" onclick="showSection('buildmaker')">Build Maker</button>
       <button class="nav-button" onclick="showSection('hunts')">Hunts for UP</button>
       <button class="nav-button" onclick="showSection('preview')">Preview</button>
       <button class="nav-button" onclick="showSection('links')">Links</button>
@@ -237,6 +264,30 @@
       <div id="huntResult" class="description"></div>
     </div>
 
+    <div id="buildmaker" class="section">
+      <h2>Build Maker</h2>
+
+      <div id="bmLevelDisplay" class="description" style="font-weight:bold; margin-bottom:1rem;">
+        Level: 0
+      </div>
+
+      <label for="bmPower">Power:</label>
+      <input type="number" id="bmPower" min="0" value="0">
+
+      <label for="bmResis">Resistance:</label>
+      <input type="number" id="bmResis" min="0" value="0">
+
+      <label for="bmIntel">Intelligence:</label>
+      <input type="number" id="bmIntel" min="0" value="0">
+
+      <label for="bmDex">Dexterity:</label>
+      <input type="number" id="bmDex" min="0" value="0">
+
+      <button type="button" class="nav-button" onclick="generateBuildMaker()">Gerar Build</button>
+
+      <div id="buildmakerResult" class="description"></div>
+    </div>
+
     <div id="preview" class="section">
       <div class="iframe-container">
         <iframe src="https://discord.com/widget?id=551218100016644122&theme=dark"></iframe>
@@ -274,9 +325,78 @@
       Infernalist: 'EM MANUTENÇÃO, NÃO ATUALIZADO Usuário de chamas infernais e debuffs.',
       Armamentist: 'EM MANUTENÇÃO, NÃO ATUALIZADO Manipula armas a longa distância.',
       Shuran: 'EM MANUTENÇÃO, NÃO ATUALIZADO Retira mana do adversário.',
-      Shadowhunter: 'Capaz de usar silence, impedindo ataques.',
+      Shadowhunter: 'EM MANUTENÇÃO, NÃO ATUALIZADO Capaz de usar silence, impedindo ataques.',
       Bonestriker: 'Ótimo em ataques físicos, defesa e regen de vida.'
     };
+
+    function calcHp(lvl, resis) {
+      return resis * (29.09 + 0.3836 * lvl) + 100;
+    }
+    function calcDef(lvl, resis) {
+      return -0.340 + 0.498 * lvl + 0.230 * resis;
+    }
+    function calcDmg(lvl, power) {
+      return 0.412 + 0.50122676 * lvl + 1.12781745 * power;
+    }
+    function calcBlp(power) {
+      const blp = 0.05 * power;
+      return blp <= 20 ? blp : 20.00;
+    }
+    function calcMana(lvl, intel) {
+      return 3.446 * Math.pow(lvl, 0.817) * Math.pow(intel, 0.690) + 100;
+    }
+    function calcCrit(dex) {
+      return (21.9 / 65) * dex;
+    }
+    function calcWisd(intel) {
+      return intel;
+    }
+
+    let bmLevel = 0;
+
+    function updateBmLevel() {
+      const power = parseFloat(document.getElementById('bmPower').value) || 0;
+      const resis = parseFloat(document.getElementById('bmResis').value) || 0;
+      const intel = parseFloat(document.getElementById('bmIntel').value) || 0;
+      const dex   = parseFloat(document.getElementById('bmDex').value) || 0;
+
+      bmLevel = Math.floor((power + resis + intel + dex) / 2);
+      document.getElementById('bmLevelDisplay').textContent = `Level: ${bmLevel}`;
+    }
+
+    ['bmPower','bmResis','bmIntel','bmDex'].forEach(id => {
+      document.getElementById(id).addEventListener('input', updateBmLevel);
+    });
+
+    function generateBuildMaker() {
+      const lvl   = bmLevel;
+      const power = parseFloat(document.getElementById('bmPower').value) || 0;
+      const resis = parseFloat(document.getElementById('bmResis').value) || 0;
+      const intel = parseFloat(document.getElementById('bmIntel').value) || 0;
+      const dex   = parseFloat(document.getElementById('bmDex').value) || 0;
+
+      const hp    = Math.floor(calcHp(lvl, resis));
+      const def   = Math.floor(calcDef(lvl, resis));
+      const dmg   = Math.floor(calcDmg(lvl, power));
+      const blp   = calcBlp(power).toFixed(1);
+      const mana  = Math.floor(calcMana(lvl, intel));
+      const crit  = Math.floor(calcCrit(dex));
+      const wisd  = Math.floor(calcWisd(intel));
+
+      const out = `
+        <p>Damage:      ${dmg}</p>
+        <p>Defense:     ${def}</p>
+        <p>Max. Health: ${hp}</p>
+        <p>Max. Mana:   ${mana}</p>
+        <p>Critical:    ${crit}%</p>
+        <p>Wisdom:      ${wisd}</p>
+        <p>Block Pen:   ${blp}%/20.00%</p>
+      `;
+      document.getElementById('buildmakerResult').innerHTML = out;
+    }
+
+    updateBmLevel();
+  
     const buildsData = {
       "Energist": {
         "PvE": { "Power": "700", "Resistance": "200", "Intelligence": "000", "Dexterity": "700", "Classe": "Energist", "Elem": "Terra", "Sub": "Madeira", "Vila": "Aqua", "Tipo": "PvE" },
@@ -309,9 +429,9 @@
         "War": { "Power": "400", "Resistance": "800", "Intelligence": "000", "Dexterity": "400", "Classe": "Shuran", "Elem": "Terra", "Sub": "Madeira", "Vila": "Aqua", "Tipo": "War" }
       },
       "Shadowhunter": {
-        "PvE": { "Power": "600", "Resistance": "200", "Intelligence": "000", "Dexterity": "800", "Classe": "Shadowhunter", "Elem": "Fogo", "Sub": "Areia", "Vila": "Blood Moon", "Tipo": "PvE" },
-        "PvP": { "Power": "200", "Resistance": "800", "Intelligence": "000", "Dexterity": "600", "Classe": "Shadowhunter", "Elem": "Água", "Sub": "Madeira", "Vila": "Blood Moon", "Tipo": "PvP" },
-        "War": { "Power": "200", "Resistance": "800", "Intelligence": "000", "Dexterity": "600", "Classe": "Shadowhunter", "Elem": "Água", "Sub": "Madeira", "Vila": "Blood Moon", "Tipo": "War" }
+        "PvE": { "Power": "700", "Resistance": "200", "Intelligence": "000", "Dexterity": "700", "Classe": "Shadowhunter", "Elem": "Terra", "Sub": "Madeira", "Vila": "Aqua", "Tipo": "PvE" },
+        "PvP": { "Power": "400", "Resistance": "800", "Intelligence": "000", "Dexterity": "400", "Classe": "Shadowhunter", "Elem": "Terra", "Sub": "Madeira", "Vila": "Aqua", "Tipo": "PvP" },
+        "War": { "Power": "400", "Resistance": "800", "Intelligence": "000", "Dexterity": "400", "Classe": "Shadowhunter", "Elem": "Terra", "Sub": "Madeira", "Vila": "Aqua", "Tipo": "War" }
       },
       "Bonestriker": {
         "PvE": { "Power": "700", "Resistance": "200", "Intelligence": "000", "Dexterity": "700", "Classe": "Bonestriker", "Elem": "Fogo", "Sub": "Lava/Gelo", "Vila": "Blood Moon", "Tipo": "PvE" },
