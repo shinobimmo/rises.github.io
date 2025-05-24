@@ -333,7 +333,7 @@
       return resis * (29.09 + 0.3836 * lvl) + 100;
     }
     function calcDef(lvl, resis) {
-      return -0.340 + 0.498 * lvl + 0.230 * resis;
+      return -0.340 + 0.498 * lvl + 0.230 * resis + 1;
     }
     function calcDmg(lvl, power) {
       return 0.412 + 0.50122676 * lvl + 1.12781745 * power;
