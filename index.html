@@ -12,13 +12,7 @@
       --card-bg: #1e1e1e;
       --hover-color: #ffa94d;
     }
-
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
-
+    * { box-sizing: border-box; margin: 0; padding: 0; }
     body {
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
       background-color: var(--bg-color);
@@ -27,7 +21,6 @@
       flex-direction: column;
       min-height: 100vh;
     }
-
     header {
       background-color: #111;
       padding: 1rem 2rem;
@@ -37,32 +30,32 @@
       position: sticky;
       top: 0;
       z-index: 1000;
-      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.7);
+      box-shadow: 0 2px 10px rgba(0,0,0,0.7);
     }
-
-    .logo {
-      font-size: 1.8rem;
-      font-weight: bold;
+    .logo { font-size: 1.8rem; font-weight: bold; color: var(--primary-color); }
+    .lang-buttons { display: flex; gap: 0.5rem; }
+    .lang-buttons button {
+      background: transparent;
+      border: 2px solid var(--primary-color);
       color: var(--primary-color);
+      padding: 0.3rem 0.6rem;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: bold;
     }
-
     main {
       flex-grow: 1;
       padding: 2rem;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: start;
-      gap: 2rem;
+      max-width: 1000px;
+      margin: 0 auto;
     }
-
     .button-container {
       display: flex;
-      flex-wrap: wrap;
       gap: 1rem;
       justify-content: center;
+      margin-bottom: 2rem;
+      flex-wrap: wrap;
     }
-
     .nav-button {
       background-color: var(--primary-color);
       border: none;
@@ -72,81 +65,352 @@
       border-radius: 10px;
       cursor: pointer;
       transition: 0.3s;
+      flex: 1;
+      max-width: 200px;
+      text-align: center;
     }
-
     .nav-button:hover {
       background-color: var(--hover-color);
       transform: translateY(-2px);
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.4);
     }
-
     .section {
       display: none;
-      width: 100%;
-      max-width: 800px;
       background-color: var(--card-bg);
       border-radius: 12px;
       padding: 2rem;
-      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+      box-shadow: 0 4px 20px rgba(0,0,0,0.5);
+      margin-bottom: 2rem;
+      min-height: 400px;
     }
-
-    .section.active {
+    .section.active { display: block; }
+    form label { display: block; margin: 1rem 0 0.5rem; }
+    form select, form input {
+      width: 100%;
+      padding: 0.5rem;
+      border-radius: 5px;
+      border: 1px solid #333;
+      background: #222;
+      color: #f0f0f0;
+    }
+    .description { margin-top: 0.5rem; font-style: italic; }
+    .content-list { list-style: none; margin-top: 1rem; }
+    .content-list li { margin: 0.5rem 0; }
+    .link-button {
       display: block;
+      width: 100%;
+      background-color: var(--primary-color);
+      color: #000;
+      padding: 0.5rem 1rem;
+      border-radius: 8px;
+      text-decoration: none;
+      font-weight: bold;
+      transition: 0.3s;
+      text-align: center;
     }
-
+    .link-button:hover { background-color: var(--hover-color); }
+    .iframe-container { height: 300px; }
+    .iframe-container iframe {
+      width: 100%; height: 100%; border: none;
+    }
     @media (max-width: 768px) {
-      .nav-button {
-        width: 100%;
-      }
+      .nav-button { max-width: none; flex: 1 1 100%; }
+      .lang-buttons button { flex: 1; }
+    }
+    #hunts label {
+      display: block;
+      margin: 1rem 0 0.5rem;
+    }
+    #hunts input[type="number"] {
+      width: 100%;
+      padding: 0.5rem;
+      border-radius: 5px;
+      border: 1px solid #333;
+      background: #222;
+      color: #f0f0f0;
     }
   </style>
 </head>
 <body>
   <header>
     <div class="logo">Shinobi MMO FAN Site</div>
+    <div class="lang-buttons">
+      <button onclick="switchLanguage('pt')">🇧🇷 PT-BR</button>
+      <button onclick="switchLanguage('en')">🇺🇸 EN</button>
+    </div>
   </header>
 
   <main>
     <div class="button-container">
-      <button class="nav-button" onclick="showSection('iniciantes')">Iniciantes</button>
+      <button class="nav-button" onclick="showSection('lows')">Iniciantes</button>
       <button class="nav-button" onclick="showSection('builds')">Builds</button>
-      <button class="nav-button" onclick="showSection('anuncios')">Anúncios</button>
-      <button class="nav-button" onclick="showSection('monologogm')">Monologogm</button>
+      <button class="nav-button" onclick="showSection('hunts')">Hunts for UP</button>
+      <button class="nav-button" onclick="showSection('preview')">Preview</button>
       <button class="nav-button" onclick="showSection('links')">Links</button>
     </div>
 
-    <div id="iniciantes" class="section active">
-      <h2>Iniciantes</h2>
-      <p>Bem-vindo ao mundo Shinobi! Aqui estão dicas para novos jogadores...</p>
+    <div id="lows" class="section active">
+      <h2>Iniciantes / Beginner</h2>
+      <p>
+        🇧🇷 | Shinobi MMO é um jogo baseado no universo Oriental. O melhor RPG de mundo aberto 2D da Playstore.<br>
+        🇺🇸 | Shinobi MMO is a game based on the Oriental universe. The best open world 2D RPG game from the Playstore.<br><br>
+
+        🇧🇷 | Você pode se tornar um grande guerreiro explorando diferentes continentes, encontrando vilarejos secretos,
+             progredindo em ranks, além de poder atacar ou se aliar com outros jogadores!<br>
+        🇺🇸 | You can become a great warrior by exploring different continents, finding secret villages, progressing in ranks,
+             and either attacking or allying with other players!<br><br>
+
+        🇧🇷 | Você pode escolher um elemento que combine com você, ter itens exclusivos e trajes invejáveis.<br>
+        🇺🇸 | You can choose an element that suits you, have exclusive items and enviable outfits.<br><br>
+
+        🇧🇷 | Além disso, o jogo possui sistemas de montaria, pets, invocações, guildas, equipes e muito mais!<br>
+        🇺🇸 | In addition, the game has riding systems, pets, summons, guilds, parties and more!<br><br>
+
+        🇧🇷 | O jogo também possui uma ampla gama de missões, permitindo que você faça um pacto com um tipo de animal,
+             lutando contra bestas com cauda junto com outros amigos do servidor!<br>
+        🇺🇸 | The game also has a wide range of quests, allowing you to make a pact with a type of animal, fighting tailed beasts
+             together with other friends on the server!<br><br>
+
+        🇧🇷 | Eventos separados por nível e eventos PVP realizados pessoalmente pelos GMs.<br>
+        🇺🇸 | Events separated by level and PVP events personally run by GMs.<br><br>
+
+        🇧🇷 | Se bugs forem encontrados, agradecemos se puderem enviar e-mails ilustrados com capturas de tela para nosso e-mail.<br>
+        🇺🇸 | If bugs are found, we would appreciate illustrated emails with screenshots to our email.<br><br>
+
+        🇧🇷 | O jogo é balanceado mensalmente e, com mais de 6 anos de operação, planejamos continuamente melhorar o jogo.<br>
+        🇺🇸 | The game is balanced monthly and with more than 6 years of operation, we plan to continuously improve the game.<br><br>
+
+        🇧🇷 | Qualquer sugestão é extremamente bem-vinda.<br>
+        🇺🇸 | Any suggestions are extremely welcome.<br><br>
+
+        🇧🇷 | Leia as regras para evitar punições.<br>
+        🇺🇸 | Read the rules to avoid punishments.<br><br>
+
+        🇧🇷 | Para começar bem, recomendamos assistir aos vídeos de alguns dos nossos YouTubers Oficiais! [Leekin & J7Uchihaa]<br>
+        🇺🇸 | To get off to a good start, we recommend watching videos from some of our Official Youtubers!<br><br>
+
+        🇧🇷 | Para se manter atualizado com as novas atualizações, confira o canal de Leekin.<br>
+        🇺🇸 | To stay up to date with new updates, check out Leekin's channel.<br>
+      </p>
+      <ul class="content-list">
+        <li><a class="link-button" href="https://risesgamedeveloper.blogspot.com/2020/08/shinobi-mmo-rules.html" target="_blank">Regras / Rules</a></li>
+        <li><a class="link-button" href="https://www.youtube.com/@leekin6613" target="_blank">YouTube: Leekin</a></li>
+        <li><a class="link-button" href="https://www.youtube.com/@J7Uchihaa" target="_blank">YouTube: J7Uchihaa</a></li>
+      </ul>
     </div>
 
     <div id="builds" class="section">
       <h2>Builds</h2>
-      <p>Confira algumas builds poderosas para otimizar seu personagem.</p>
+      <form>
+        <label for="level">Level (1–800):</label>
+        <input type="number" id="level" min="1" max="800" value="800">
+        <label for="type">Type:</label>
+        <select id="type">
+          <option value="PvE">PvE</option>
+          <option value="PvP">PvP</option>
+          <option value="War">War</option>
+        </select>
+        <div id="typeDesc" class="description"></div>
+        <label for="classSelect">Class:</label>
+        <select id="classSelect">
+          <option value="Bonestriker">Bonestriker</option>
+          <option value="Energist">Energist</option>
+          <option value="Fighter">Fighter</option>
+          <option value="Medical">Medical</option>
+          <option value="Infernalist">Infernalist</option>
+          <option value="Armamentist">Armamentist</option>
+          <option value="Shuran">Shuran</option>
+          <option value="Shadowhunter">Shadowhunter</option>
+        </select>
+        <div id="classDesc" class="description"></div>
+        <button type="button" class="nav-button" onclick="generateBuild()">Build</button>
+      </form>
+      <div id="result" class="description"></div>
+    </div>
+  
+    <div id="hunts" class="section">
+      <h2>Hunts for UP</h2>
+      <label for="huntLevel">Digite seu Level:</label>
+      <input type="number" id="huntLevel" min="1" max="800">
+      <p><br></p>
+      <button type="button" class="nav-button" onclick="findHunt()">Search</button>
+      <div id="huntResult" class="description"></div>
     </div>
 
-    <div id="anuncios" class="section">
-      <h2>Anúncios</h2>
-      <p>Fique por dentro das últimas novidades e atualizações do jogo.</p>
-    </div>
-
-    <div id="monologogm" class="section">
-      <h2>Monologogm</h2>
-      <p>Mensagens e reflexões do GM sobre o jogo e a comunidade.</p>
+    <div id="preview" class="section">
+      <div class="iframe-container">
+        <iframe src="https://discord.com/widget?id=551218100016644122&theme=dark"></iframe>
+      </div>
     </div>
 
     <div id="links" class="section">
-      <h2>Links Úteis</h2>
-      <p>Acesse recursos, comunidades e materiais complementares aqui.</p>
+      <h2>Links</h2>
+      <p>
+        🇧🇷 | Acesse recursos, comunidades e materiais complementares aqui.<br>
+        🇺🇸 | Access resources, communities, and supplementary materials here.<br>
+      </p>
+      <ul class="content-list">
+        <li><a class="link-button" href="https://play.google.com/store/apps/details?id=com.risesgame.shinobimmorising" target="_blank">Play Store</a></li>
+        <li><a class="link-button" href="https://apps.apple.com/br/app/shinobi-mmo-rising/id6447063278" target="_blank">App Store</a></li>
+        <li><a class="link-button" href="https://m.youtube.com/channel/UCTxEvTMQ94EIyiyij7mcD9A" target="_blank">YouTube Channel</a></li>
+        <li><a class="link-button" href="https://www.instagram.com/risesgamedeveloper/" target="_blank">Instagram</a></li>
+        <li><a class="link-button" href="https://discord.com/invite/t6exZ6kHc6" target="_blank">Discord</a></li>
+        <li><a class="link-button" href="mailto:risesgamedeveloper@gmail.com" target="_blank">Email</a></li>
+        <li><a class="link-button" href="https://risesteam.fandom.com/pt-br/wiki/ShinobiMMO_Wiki" target="_blank">Wiki (old)</a></li>
+        <li><a class="link-button" href="https://risesgamedeveloper.blogspot.com/2022/12/credits-and-attributions.html" target="_blank">Créditos / Credits</a></li>
+      </ul>
     </div>
   </main>
-
   <script>
+    const typeDescriptions = {
+      PvE: 'Builds projetadas para FULL UP, focadas em dano.',
+      PvP: 'Builds focadas para manter melhor desenvolvimento entre as batalhas.',
+      War: 'Build para conflitos de guilda em larga escala.'
+    };
+    const classDescriptions = {
+      Energist: 'Manipula energia e regen de mana alto.',
+      Fighter: 'Guerreiro de combate corpo a corpo.',
+      Medical: 'Suporte com habilidades de cura e buff.',
+      Infernalist: 'EM MANUTENÇÃO, NÃO ATUALIZADO Usuário de chamas infernais e debuffs.',
+      Armamentist: 'EM MANUTENÇÃO, NÃO ATUALIZADO Manipula armas a longa distância.',
+      Shuran: 'EM MANUTENÇÃO, NÃO ATUALIZADO Retira mana do adversário.',
+      Shadowhunter: 'EM MANUTENÇÃO, NÃO ATUALIZADO Capaz de usar silence, impedindo ataques.',
+      Bonestriker: 'Ótimo em ataques físicos, defesa e regen de vida.'
+    };
+    const buildsData = {
+      "Energist": {
+        "PvE": { "Power": "700", "Resistance": "200", "Intelligence": "000", "Dexterity": "700", "Classe": "Energist", "Elem": "Terra", "Sub": "Madeira", "Vila": "Aqua", "Tipo": "PvE" },
+        "PvP": { "Power": "400", "Resistance": "800", "Intelligence": "000", "Dexterity": "400", "Classe": "Energist", "Elem": "Terra", "Sub": "Madeira", "Vila": "Aqua", "Tipo": "PvP" },
+        "War": { "Power": "400", "Resistance": "800", "Intelligence": "000", "Dexterity": "400", "Classe": "Energist", "Elem": "Terra", "Sub": "Madeira", "Vila": "Aqua", "Tipo": "War" }
+      },
+      "Fighter": {
+        "PvE": { "Power": "700", "Resistance": "200", "Intelligence": "000", "Dexterity": "700", "Classe": "Fighter", "Elem": "Fogo", "Sub": "Lava", "Vila": "Blood Moon", "Tipo": "PvE" },
+        "PvP": { "Power": "600", "Resistance": "400", "Intelligence": "000", "Dexterity": "600", "Classe": "Fighter", "Elem": "Raio", "Sub": "Madeira", "Vila": "Forest", "Tipo": "PvP" },
+        "War": { "Power": "500", "Resistance": "700", "Intelligence": "000", "Dexterity": "400", "Classe": "Fighter", "Elem": "Terra", "Sub": "Madeira", "Vila": "Aqua", "Tipo": "War" }
+      },
+      "Medical": {
+        "PvE": { "Power": "700", "Resistance": "200", "Intelligence": "000", "Dexterity": "700", "Classe": "Medical", "Elem": "Fogo", "Sub": "Lava", "Vila": "Desert", "Tipo": "PvE" },
+        "PvP": { "Power": "200", "Resistance": "400", "Intelligence": "500", "Dexterity": "500", "Classe": "Medical", "Elem": "Terra", "Sub": "Madeira", "Vila": "Forest", "Tipo": "PvP" },
+        "War": { "Power": "000", "Resistance": "500", "Intelligence": "800", "Dexterity": "300", "Classe": "Medical", "Elem": "Terra", "Sub": "Madeira", "Vila": "Forest", "Tipo": "War" }
+      },
+      "Infernalist": {
+        "PvE": { "Power": "700", "Resistance": "200", "Intelligence": "000", "Dexterity": "700", "Classe": "Infernalist", "Elem": "Terra", "Sub": "Madeira", "Vila": "Aqua", "Tipo": "PvE" },
+        "PvP": { "Power": "400", "Resistance": "800", "Intelligence": "000", "Dexterity": "400", "Classe": "Infernalist", "Elem": "Terra", "Sub": "Madeira", "Vila": "Aqua", "Tipo": "PvP" },
+        "War": { "Power": "400", "Resistance": "800", "Intelligence": "000", "Dexterity": "400", "Classe": "Infernalist", "Elem": "Terra", "Sub": "Madeira", "Vila": "Aqua", "Tipo": "War" }
+      },
+      "Armamentist": {
+        "PvE": { "Power": "700", "Resistance": "200", "Intelligence": "000", "Dexterity": "700", "Classe": "Armamentist", "Elem": "Terra", "Sub": "Madeira", "Vila": "Aqua", "Tipo": "PvE" },
+        "PvP": { "Power": "400", "Resistance": "800", "Intelligence": "000", "Dexterity": "400", "Classe": "Armamentist", "Elem": "Terra", "Sub": "Madeira", "Vila": "Aqua", "Tipo": "PvP" },
+        "War": { "Power": "400", "Resistance": "800", "Intelligence": "000", "Dexterity": "400", "Classe": "Armamentist", "Elem": "Terra", "Sub": "Madeira", "Vila": "Aqua", "Tipo": "War" }
+      },
+      "Shuran": {
+        "PvE": { "Power": "700", "Resistance": "200", "Intelligence": "000", "Dexterity": "700", "Classe": "Shuran", "Elem": "Terra", "Sub": "Madeira", "Vila": "Aqua", "Tipo": "PvE" },
+        "PvP": { "Power": "400", "Resistance": "800", "Intelligence": "000", "Dexterity": "400", "Classe": "Shuran", "Elem": "Terra", "Sub": "Madeira", "Vila": "Aqua", "Tipo": "PvP" },
+        "War": { "Power": "400", "Resistance": "800", "Intelligence": "000", "Dexterity": "400", "Classe": "Shuran", "Elem": "Terra", "Sub": "Madeira", "Vila": "Aqua", "Tipo": "War" }
+      },
+      "Shadowhunter": {
+        "PvE": { "Power": "700", "Resistance": "200", "Intelligence": "000", "Dexterity": "700", "Classe": "Shadowhunter", "Elem": "Terra", "Sub": "Madeira", "Vila": "Aqua", "Tipo": "PvE" },
+        "PvP": { "Power": "400", "Resistance": "800", "Intelligence": "000", "Dexterity": "400", "Classe": "Shadowhunter", "Elem": "Terra", "Sub": "Madeira", "Vila": "Aqua", "Tipo": "PvP" },
+        "War": { "Power": "400", "Resistance": "800", "Intelligence": "000", "Dexterity": "400", "Classe": "Shadowhunter", "Elem": "Terra", "Sub": "Madeira", "Vila": "Aqua", "Tipo": "War" }
+      },
+      "Bonestriker": {
+        "PvE": { "Power": "700", "Resistance": "200", "Intelligence": "000", "Dexterity": "700", "Classe": "Bonestriker", "Elem": "Fogo", "Sub": "Lava/Gelo", "Vila": "Blood Moon", "Tipo": "PvE" },
+        "PvP": { "Power": "400", "Resistance": "800", "Intelligence": "000", "Dexterity": "400", "Classe": "Bonestriker", "Elem": "Terra", "Sub": "Madeira", "Vila": "Aqua", "Tipo": "PvP" },
+        "War": { "Power": "400", "Resistance": "800", "Intelligence": "000", "Dexterity": "400", "Classe": "Bonestriker", "Elem": "Terra", "Sub": "Madeira", "Vila": "Aqua", "Tipo": "War" }
+      }
+    };
+    document.getElementById('type').addEventListener('change', e => {
+      document.getElementById('typeDesc').textContent = typeDescriptions[e.target.value];
+    });
+    document.getElementById('classSelect').addEventListener('change', e => {
+      document.getElementById('classDesc').textContent = classDescriptions[e.target.value];
+    });
     function showSection(id) {
-      const sections = document.querySelectorAll('.section');
-      sections.forEach(section => section.classList.remove('active'));
+      document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
       document.getElementById(id).classList.add('active');
     }
+    function switchLanguage(lang) {
+      // FAZER
+    }
+    function generateBuild() {
+      const level = parseInt(document.getElementById('level').value, 10);
+      const type = document.getElementById('type').value;
+      const cls = document.getElementById('classSelect').value;
+      if (!buildsData[cls] || !buildsData[cls][type]) {
+        document.getElementById('result').textContent = 'Build não encontrada';
+        return;
+      }
+      const build = buildsData[cls][type];
+      const factor = level / 800;
+      const power = Math.round(parseInt(build.Power) * factor);
+      const resistance = Math.round(parseInt(build.Resistance) * factor);
+      const intelligence = Math.round(parseInt(build.Intelligence) * factor);
+      const dexterity = Math.round(parseInt(build.Dexterity) * factor);
+      const classe = build.Classe;
+      const elem = build.Elem;
+      const sub = build.Sub;
+      const vila = build.Vila;
+      const tipo = build.Tipo;
+      document.getElementById('result').innerHTML =
+        `<p>Power: ${power}</p><p>Resistance: ${resistance}</p>` +
+        `<p>Intelligence: ${intelligence}</p><p>Dexterity: ${dexterity}</p>` +
+        `${classe} - ${elem} - ${sub} - ${vila} - ${tipo}`;
+    }
+  const huntData = [
+    { level: 1, name: "Chicken" },
+    { level: 3, name: "Wolf" },
+    { level: 5, name: "Worm" },
+    { level: 15, name: "Puppet" },
+    { level: 20, name: "Toy Boy" },
+    { level: 30, name: "Shuran" },
+    { level: 60, name: "Ice Fighter and Advanced" },
+    { level: 90, name: "Elf" },
+    { level: 111, name: "Star Maniac" },
+    { level: 150, name: "Star Mobs" },
+    { level: 200, name: "Moon Mobs" },
+    { level: 250, name: "Sun Mobs" },
+    { level: 270, name: "Kanazure - Pirates" },
+    { level: 300, name: "Kanazure - Samurais" },
+    { level: 350, name: "Kanazure - Draconics" },
+    { level: 400, name: "Mugen Kamuijin" },
+    { level: 450, name: "Ice 2 Mobs" },
+    { level: 501, name: "Kanazure - Knight Mobs" },
+    { level: 525, name: "Kanazure - Knight 2 Mobs" },
+    { level: 600, name: "Sound Mobs" }
+  ];
+
+  function findHunt() {
+    const userLevel = parseInt(document.getElementById('huntLevel').value, 10);
+    if (isNaN(userLevel)) {
+      document.getElementById('huntResult').textContent = 'Por favor, insira um nível válido.';
+      return;
+    }
+
+    let bestHunt = null;
+    let nextHunt = null;
+
+    for (let i = 0; i < huntData.length; i++) {
+      const hunt = huntData[i];
+      if (hunt.level <= userLevel) bestHunt = hunt;
+      else {
+        nextHunt = hunt;
+        break;
+      }
+    }
+
+    let result = '';
+    if (bestHunt) {
+      result += `<p>Melhor hunt para o seu level (${userLevel}): <br> <strong>${bestHunt.name}</strong> (Level ${bestHunt.level})</p>`;
+    } else {
+      result += '<p>Nenhuma hunt encontrada para esse nível.</p>';
+    }
+
+    if (nextHunt) {
+      result += `<p>Próxima hunt será desbloqueada no level ${nextHunt.level}: <strong>${nextHunt.name}</strong></p>`;
+    }
+
+    document.getElementById('huntResult').innerHTML = result;
+  }
   </script>
 </body>
 </html>
